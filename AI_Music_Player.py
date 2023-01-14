@@ -26,7 +26,6 @@ img5 = ImageTk.PhotoImage(Image.open("images\songs\patti.jpg").resize((600, 600)
 img6 = ImageTk.PhotoImage(Image.open("images\songs\pink-floyd.jpg").resize((600, 600), Image.ANTIALIAS))
 
 song_image_list = [img1, img2, img3, img4, img5, img6]
-number_of_songs = 6
 
 #gui-functions
 
@@ -53,7 +52,7 @@ def pause():
     assembly()
 
 
-def skip(current_image_number):
+def skip(image_number):
     global album_cover
     global play_button
     global pause_button
@@ -62,16 +61,16 @@ def skip(current_image_number):
 
     album_cover.grid_forget()
 
-    album_cover = Label(root, image=song_image_list[current_image_number-1])
+    album_cover = Label(root, image=song_image_list[image_number-1])
     play_button = Button(root, image=play_img, command=lambda: play)
     pause_button = Button(root, image=pause_img, command=lambda: pause)
 
-    if current_image_number == 6:
+    if image_number == 6:
         skip_button = Button(root, image=skip_img, state=DISABLED)
     else:
-        skip_button = Button(root,  image=skip_img, command=lambda: skip(current_image_number+1))
+        skip_button = Button(root,  image=skip_img, command=lambda: skip(image_number+1))
 
-    back_button = Button(root, image=back_img, command=lambda: back(current_image_number-1))
+    back_button = Button(root, image=back_img, command=lambda: back(image_number-1))
 
     assembly()
 
