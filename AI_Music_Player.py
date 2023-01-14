@@ -26,6 +26,7 @@ img5 = ImageTk.PhotoImage(Image.open("images\songs\patti.jpg").resize((600, 600)
 img6 = ImageTk.PhotoImage(Image.open("images\songs\pink-floyd.jpg").resize((600, 600), Image.ANTIALIAS))
 
 song_image_list = [img1, img2, img3, img4, img5, img6]
+number_of_songs = len(song_image_list)
 
 #gui-functions
 
@@ -61,16 +62,19 @@ def skip(image_number):
 
     album_cover.grid_forget()
 
-    album_cover = Label(root, image=song_image_list[image_number-1])
+    album_cover = Label(root, image=song_image_list[image_number-1], border=5)
     play_button = Button(root, image=play_img, command=lambda: play)
     pause_button = Button(root, image=pause_img, command=lambda: pause)
 
-    if image_number == 6:
+    if image_number == number_of_songs:
         skip_button = Button(root, image=skip_img, state=DISABLED)
     else:
         skip_button = Button(root,  image=skip_img, command=lambda: skip(image_number+1))
 
     back_button = Button(root, image=back_img, command=lambda: back(image_number-1))
+
+    status = Label(root, text="Song " + str(image_number) + " of " + str(number_of_songs), bd=1, anchor=E)
+
 
     assembly()
 
@@ -83,7 +87,7 @@ def back(image_number):
 
     album_cover.grid_forget()
 
-    album_cover = Label(root, image=song_image_list[image_number-1])
+    album_cover = Label(root, image=song_image_list[image_number-1], border=5)
     play_button = Button(root, image=play_img, command=lambda: play)
     pause_button = Button(root, image=pause_img, command=lambda: pause)
 
@@ -94,25 +98,29 @@ def back(image_number):
     else:
         back_button = Button(root, image=back_img, command=lambda: back(image_number-1))
 
+    status = Label(root, text="Song " + str(image_number) + " of " + str(number_of_songs), bd=1, anchor=E)
+
     assembly()
 
 
 #Widget Initializations
-album_cover = Label(image=img1)
+album_cover = Label(root, image=img1, border=5)
 
 play_button = Button(root, image=play_img, command=lambda: play)
 pause_button = Button(root, image=pause_img, command=lambda: pause)
 skip_button = Button(root,  image=skip_img, command=lambda: skip(2))
 back_button = Button(root, image=back_img, state=DISABLED)
 
-#Widget Assembly
+status = Label(root, text="Song 1 of " + str(number_of_songs), bd=1, anchor=E)
 
+#Widget Assembly
 def assembly():
     album_cover.grid(row=0, column=1, columnspan=3)
 
     back_button.grid(row=1, column=1)
     play_button.grid(row=1, column=2)
     skip_button.grid(row=1, column=3)
+    status.grid(row=2, column=1, columnspan=3, sticky=W+E)
 
 assembly()
 
