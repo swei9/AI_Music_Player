@@ -73,7 +73,8 @@ def skip(image_number):
 
     back_button = Button(root, image=back_img, command=lambda: back(image_number-1))
 
-    status = Label(root, text="Song " + str(image_number) + " of " + str(number_of_songs), bd=1, anchor=E)
+    status_button = Label(root, text="Song " + str(image_number) + " of " + str(number_of_songs), bd=1, anchor=E)
+    status_button.grid(row=2, column=1, columnspan=3, sticky=W+E)
 
 
     assembly()
@@ -98,7 +99,8 @@ def back(image_number):
     else:
         back_button = Button(root, image=back_img, command=lambda: back(image_number-1))
 
-    status = Label(root, text="Song " + str(image_number) + " of " + str(number_of_songs), bd=1, anchor=E)
+    status_button = Label(root, text="Song " + str(image_number) + " of " + str(number_of_songs), bd=1, anchor=E)
+    status_button.grid(row=2, column=1, columnspan=3, sticky=W+E)
 
     assembly()
 
@@ -111,7 +113,7 @@ pause_button = Button(root, image=pause_img, command=lambda: pause)
 skip_button = Button(root,  image=skip_img, command=lambda: skip(2))
 back_button = Button(root, image=back_img, state=DISABLED)
 
-status = Label(root, text="Song 1 of " + str(number_of_songs), bd=1, anchor=E)
+status_button = Label(root, text="Song 1 of " + str(number_of_songs), bd=1, anchor=E)
 
 #Widget Assembly
 def assembly():
@@ -120,7 +122,7 @@ def assembly():
     back_button.grid(row=1, column=1)
     play_button.grid(row=1, column=2)
     skip_button.grid(row=1, column=3)
-    status.grid(row=2, column=1, columnspan=3, sticky=W+E)
+    status_button.grid(row=2, column=1, columnspan=3, sticky=W+E)
 
 assembly()
 
