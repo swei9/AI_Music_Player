@@ -18,12 +18,12 @@ pause_img = ImageTk.PhotoImage(Image.open("images\gui\pause_button.png").resize(
 skip_img = ImageTk.PhotoImage(Image.open("images\gui\skip_forward_button.png").resize((60, 60), Image.ANTIALIAS))
 back_img = ImageTk.PhotoImage(Image.open("images\gui\skip_backward_button.png").resize((60, 60), Image.ANTIALIAS))
 
-img1 = ImageTk.PhotoImage(Image.open("images\songs\\beatles.jpg").resize((600, 600), Image.ANTIALIAS))
-img2 = ImageTk.PhotoImage(Image.open("images\songs\led-zepllin.jpg").resize((600, 600), Image.ANTIALIAS))
-img3 = ImageTk.PhotoImage(Image.open("images\songs\\nico.jpg").resize((600, 600), Image.ANTIALIAS))
-img4 = ImageTk.PhotoImage(Image.open("images\songs\\notorius-big.jpg").resize((600, 600), Image.ANTIALIAS))
-img5 = ImageTk.PhotoImage(Image.open("images\songs\patti.jpg").resize((600, 600), Image.ANTIALIAS))
-img6 = ImageTk.PhotoImage(Image.open("images\songs\pink-floyd.jpg").resize((600, 600), Image.ANTIALIAS))
+img1 = ImageTk.PhotoImage(Image.open("images\\album-covers\\beatles.jpg").resize((600, 600), Image.ANTIALIAS))
+img2 = ImageTk.PhotoImage(Image.open("images\\album-covers\led-zepllin.jpg").resize((600, 600), Image.ANTIALIAS))
+img3 = ImageTk.PhotoImage(Image.open("images\\album-covers\\nico.jpg").resize((600, 600), Image.ANTIALIAS))
+img4 = ImageTk.PhotoImage(Image.open("images\\album-covers\\notorius-big.jpg").resize((600, 600), Image.ANTIALIAS))
+img5 = ImageTk.PhotoImage(Image.open("images\\album-covers\patti.jpg").resize((600, 600), Image.ANTIALIAS))
+img6 = ImageTk.PhotoImage(Image.open("images\\album-covers\pink-floyd.jpg").resize((600, 600), Image.ANTIALIAS))
 
 song_image_list = [img1, img2, img3, img4, img5, img6]
 number_of_songs = len(song_image_list)
