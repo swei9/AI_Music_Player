@@ -17,6 +17,7 @@ class App(customtkinter.CTk):
 
         self.title("BeatScape")
         self.geometry(f"{1100}x{580}")
+        self.iconbitmap("images/gui/favicon.ico")
 
         # set grid layout 1x2
         self.grid_rowconfigure(0, weight=1)
@@ -26,17 +27,24 @@ class App(customtkinter.CTk):
         image_path_gui = os.path.join(os.path.dirname(os.path.realpath(__file__)), "images/gui")
         image_path_album_covers = os.path.join(os.path.dirname(os.path.realpath(__file__)), "images/album-covers")
 
-        self.playbutton_image = customtkinter.CTkImage(dark_image=Image.open(os.path.join(image_path_gui, "play_button.png")), size=(30, 30))
-        self.pausebutton_image = customtkinter.CTkImage(dark_image=Image.open(os.path.join(image_path_gui, "pause_button.png")), size=(30, 30))
-        self.skipbutton_image = customtkinter.CTkImage(dark_image=Image.open(os.path.join(image_path_gui, "skip_forward_button.png")), size=(30, 30))
-        self.backbutton_image = customtkinter.CTkImage(dark_image=Image.open(os.path.join(image_path_gui, "skip_backward_button.png")), size=(30, 30))
+        self.playbutton_image = customtkinter.CTkImage(light_image=Image.open(os.path.join(image_path_gui, "play_dark.png")),
+                                                       dark_image=Image.open(os.path.join(image_path_gui, "play_light.png")), size=(30, 30))
+        self.pausebutton_image = customtkinter.CTkImage(light_image=Image.open(os.path.join(image_path_gui, "pause_dark.png")),
+                                                        dark_image=Image.open(os.path.join(image_path_gui, "pause_light.png")), size=(30, 30))
+        self.skipbutton_image = customtkinter.CTkImage(light_image=Image.open(os.path.join(image_path_gui, "skip_dark.png")),
+                                                       dark_image=Image.open(os.path.join(image_path_gui, "skip_light.png")), size=(30, 30))
+        self.backbutton_image = customtkinter.CTkImage(light_image=Image.open(os.path.join(image_path_gui, "back_dark.png")),
+                                                       dark_image=Image.open(os.path.join(image_path_gui, "back_light.png")), size=(30, 30))
 
         self.home_image = customtkinter.CTkImage(light_image=Image.open(os.path.join(image_path_gui, "home_dark.png")),
                                                  dark_image=Image.open(os.path.join(image_path_gui, "home_light.png")), size=(20, 20))
-        self.playlist_image = customtkinter.CTkImage(dark_image=Image.open(os.path.join(image_path_gui, "menu_icon.png")), size=(20, 20))
-        self.settings_image = customtkinter.CTkImage(dark_image=Image.open(os.path.join(image_path_gui, "settings_icon.png")), size=(20, 20))
+        self.playlist_image = customtkinter.CTkImage(light_image=Image.open(os.path.join(image_path_gui, "playlist_dark.png")),
+                                                     dark_image=Image.open(os.path.join(image_path_gui, "playlist_light.png")), size=(20, 20))
+        self.settings_image = customtkinter.CTkImage(light_image=Image.open(os.path.join(image_path_gui, "settings_dark.png")),
+                                                     dark_image=Image.open(os.path.join(image_path_gui, "settings_light.png")), size=(20, 20))
 
-        self.logo_image = customtkinter.CTkImage(Image.open(os.path.join(image_path_gui, "CustomTkinter_logo_single.png")), size=(26, 26))
+        self.logo_image = customtkinter.CTkImage(light_image=Image.open(os.path.join(image_path_gui, "beatscape-highrez-dark.png")),
+                                                 dark_image=Image.open(os.path.join(image_path_gui, "beatscape-highrez-light.png")), size=(26, 26))
 
         self.album_cover_img1 = customtkinter.CTkImage(Image.open(os.path.join(image_path_album_covers, "beatles.jpg")), size=(500, 500))
         self.album_cover_img2 = customtkinter.CTkImage(Image.open(os.path.join(image_path_album_covers, "led-zepllin.jpg")), size=(500, 500))
@@ -53,8 +61,7 @@ class App(customtkinter.CTk):
         self.navigation_frame.grid(row=0, column=0, sticky="nsew")
         self.navigation_frame.grid_rowconfigure(4, weight=1)
 
-        self.navigation_frame_label = customtkinter.CTkLabel(self.navigation_frame, text="  BeatScape", image=self.logo_image,
-                                                             compound="left", font=customtkinter.CTkFont(size=15, weight="bold"))
+        self.navigation_frame_label = customtkinter.CTkLabel(self.navigation_frame, image=self.logo_image, compound="left")
         self.navigation_frame_label.grid(row=0, column=0, padx=20, pady=20)
 
         self.home_button = customtkinter.CTkButton(self.navigation_frame, corner_radius=0, height=40, border_spacing=10, text="Home",
@@ -86,7 +93,7 @@ class App(customtkinter.CTk):
         play_button = customtkinter.CTkButton(self, image=self.playbutton_image, command=lambda: play)
         play_button.grid(row=1, column=2)
 
-        skip_button = customtkinter.CTkButton(self,  image=self.pausebutton_image, command=lambda: skip(2))
+        skip_button = customtkinter.CTkButton(self,  image=self.skipbutton_image, command=lambda: skip(2))
         skip_button.grid(row=1, column=3)
 
         back_button = customtkinter.CTkButton(self, image=self.backbutton_image)
