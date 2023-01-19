@@ -1,12 +1,11 @@
-#print("\n~~~~~~Music~~~~~")
-#playsound('songs/meow.wav')
-
 #imports
 from playsound import playsound
 import tkinter
 from PIL import ImageTk,Image
 import customtkinter
 import os
+import pygame
+from pygame import mixer 
 
 customtkinter.set_appearance_mode("dark")
 customtkinter.set_default_color_theme("dark-blue")
@@ -131,10 +130,18 @@ class App(customtkinter.CTk):
         def play():
             print("Play")
             #Insert play function here
+            pygame.init()
+            mixer.music.load('meow.wav')
 
         def pause():
             print("Pause")
             #Insert pause function here
+            mixer.music.pause()
+
+        def resume():
+            print("Resume")
+            #Insert RESUME function here
+            mixer.music.unpause()
 
         def skip(image_number):
             global album_cover
