@@ -129,22 +129,12 @@ class App(customtkinter.CTk):
             print("Test")
 
         def play():
-            global album_cover
-            global play_button
-            global pause_button
-            global skip_button
-            global back_button
-
-            album_cover.grid_forget()
+            print("Play")
+            #Insert play function here
 
         def pause():
-            global album_cover
-            global play_button
-            global pause_button
-            global skip_button
-            global back_button
-
-            album_cover.grid_forget()
+            print("Pause")
+            #Insert pause function here
 
         def skip(image_number):
             global album_cover
