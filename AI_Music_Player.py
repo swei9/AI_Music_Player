@@ -14,18 +14,25 @@ class App(customtkinter.CTk):
     def __init__(self):
         super().__init__()
 
+        pygame.mixer.init()
+
         self.title("BeatScape")
-        self.geometry(f"{1100}x{580}")
+        self.geometry(f"{1100}x{610}")
         self.iconbitmap("images/gui/favicon.ico")
 
         # set grid layout 1x2
         self.grid_rowconfigure(0, weight=1)
         self.grid_columnconfigure(1, weight=1)
 
-        # load images with light and dark mode image
+        # load gui images with light and dark mode image
         image_path_gui = os.path.join(os.path.dirname(os.path.realpath(__file__)), "images/gui")
         image_path_album_covers = os.path.join(os.path.dirname(os.path.realpath(__file__)), "images/album-covers")
 
+        self.logo_image = customtkinter.CTkImage(light_image=Image.open(os.path.join(image_path_gui, "beatscape-highrez-dark.png")),
+                                                 dark_image=Image.open(os.path.join(image_path_gui, "beatscape-highrez-light.png")), size=(250, 61.75))
+
+        self.home_image = customtkinter.CTkImage(light_image=Image.open(os.path.join(image_path_gui, "home_dark.png")),
+                                                 dark_image=Image.open(os.path.join(image_path_gui, "home_light.png")), size=(20, 20))
         self.playbutton_image = customtkinter.CTkImage(light_image=Image.open(os.path.join(image_path_gui, "play_dark.png")),
                                                        dark_image=Image.open(os.path.join(image_path_gui, "play_light.png")), size=(30, 30))
         self.pausebutton_image = customtkinter.CTkImage(light_image=Image.open(os.path.join(image_path_gui, "pause_dark.png")),
@@ -35,16 +42,13 @@ class App(customtkinter.CTk):
         self.backbutton_image = customtkinter.CTkImage(light_image=Image.open(os.path.join(image_path_gui, "back_dark.png")),
                                                        dark_image=Image.open(os.path.join(image_path_gui, "back_light.png")), size=(30, 30))
 
-        self.home_image = customtkinter.CTkImage(light_image=Image.open(os.path.join(image_path_gui, "home_dark.png")),
-                                                 dark_image=Image.open(os.path.join(image_path_gui, "home_light.png")), size=(20, 20))
         self.playlist_image = customtkinter.CTkImage(light_image=Image.open(os.path.join(image_path_gui, "playlist_dark.png")),
                                                      dark_image=Image.open(os.path.join(image_path_gui, "playlist_light.png")), size=(20, 20))
+
         self.settings_image = customtkinter.CTkImage(light_image=Image.open(os.path.join(image_path_gui, "settings_dark.png")),
                                                      dark_image=Image.open(os.path.join(image_path_gui, "settings_light.png")), size=(20, 20))
 
-        self.logo_image = customtkinter.CTkImage(light_image=Image.open(os.path.join(image_path_gui, "beatscape-highrez-dark.png")),
-                                                 dark_image=Image.open(os.path.join(image_path_gui, "beatscape-highrez-light.png")), size=(26, 26))
-
+        # load song images
         self.album_cover_img1 = customtkinter.CTkImage(Image.open(os.path.join(image_path_album_covers, "beatles.jpg")), size=(500, 500))
         self.album_cover_img2 = customtkinter.CTkImage(Image.open(os.path.join(image_path_album_covers, "led-zepllin.jpg")), size=(500, 500))
         self.album_cover_img3 = customtkinter.CTkImage(Image.open(os.path.join(image_path_album_covers, "nico.jpg")), size=(500, 500))
@@ -60,7 +64,7 @@ class App(customtkinter.CTk):
         self.navigation_frame.grid(row=0, column=0, sticky="nsew")
         self.navigation_frame.grid_rowconfigure(4, weight=1)
 
-        self.navigation_frame_label = customtkinter.CTkLabel(self.navigation_frame, image=self.logo_image, compound="left")
+        self.navigation_frame_label = customtkinter.CTkLabel(self.navigation_frame, text="", image=self.logo_image)
         self.navigation_frame_label.grid(row=0, column=0, padx=20, pady=20)
 
         self.home_button = customtkinter.CTkButton(self.navigation_frame, corner_radius=0, height=40, border_spacing=10, text="Home",
@@ -84,48 +88,28 @@ class App(customtkinter.CTk):
 
         # create home frame
         self.home_frame = customtkinter.CTkFrame(self, corner_radius=0, fg_color="transparent")
-        self.home_frame.grid_columnconfigure(0, weight=1)
+        #self.home_frame.grid_columnconfigure(0, weight=1)
 
-        album_cover = customtkinter.CTkLabel(self, image=self.album_cover_img1)
-        album_cover.grid(row=0, column=1, columnspan=3)
+        album_cover = customtkinter.CTkLabel(self.home_frame, text="", image=self.album_cover_img1)
+        album_cover.grid(row=0, column=1, columnspan=3, padx=10, pady=10)
 
-        play_button = customtkinter.CTkButton(self, image=self.playbutton_image, command=lambda: play)
-        play_button.grid(row=1, column=2)
+        back_button = customtkinter.CTkButton(self.home_frame, text="", image=self.backbutton_image)
+        back_button.grid(row=1, column=1, padx=10, pady=10)
 
-        skip_button = customtkinter.CTkButton(self,  image=self.skipbutton_image, command=lambda: skip(2))
-        skip_button.grid(row=1, column=3)
+        play_button = customtkinter.CTkButton(self.home_frame, text="", image=self.playbutton_image, command=lambda: play)
+        play_button.grid(row=1, column=2, padx=10, pady=10)
 
-        back_button = customtkinter.CTkButton(self, image=self.backbutton_image)
-        back_button.grid(row=1, column=1)
+        skip_button = customtkinter.CTkButton(self.home_frame, text="",  image=self.skipbutton_image, command=lambda: skip(2))
+        skip_button.grid(row=1, column=3, padx=10, pady=10)
 
-
-        status_button = customtkinter.CTkLabel(self, text="Song 1 of " + str(number_of_songs))
+        status_button = customtkinter.CTkLabel(self.home_frame, text="Song 1 of " + str(number_of_songs))
         status_button.grid(row=2, column=1, columnspan=3)
 
-
-        #self.home_frame_large_image_label = customtkinter.CTkLabel(self.home_frame, text="", image=self.large_test_image)
-        #self.home_frame_large_image_label.grid(row=0, column=0, padx=20, pady=10)
-
-        #self.home_frame_button_1 = customtkinter.CTkButton(self.home_frame, text="", image=self.image_icon_image)
-        #self.home_frame_button_1.grid(row=1, column=0, padx=20, pady=10)
-
-        #self.home_frame_button_2 = customtkinter.CTkButton(self.home_frame, text="CTkButton", image=self.image_icon_image, compound="right")
-        #self.home_frame_button_2.grid(row=2, column=0, padx=20, pady=10)
-
-        #self.home_frame_button_3 = customtkinter.CTkButton(self.home_frame, text="CTkButton", image=self.image_icon_image, compound="top")
-        #self.home_frame_button_3.grid(row=3, column=0, padx=20, pady=10)
-
-        #self.home_frame_button_4 = customtkinter.CTkButton(self.home_frame, text="CTkButton", image=self.image_icon_image, compound="bottom", anchor="w")
-        #self.home_frame_button_4.grid(row=4, column=0, padx=20, pady=10)
-
         # create playlist frame
-        self.second_frame = customtkinter.CTkFrame(self, corner_radius=0, fg_color="transparent")
+        self.playlist_frame = customtkinter.CTkFrame(self, corner_radius=0, fg_color="transparent")
 
         # create settings frame
-        self.third_frame = customtkinter.CTkFrame(self, corner_radius=0, fg_color="transparent")
-
-        def login():
-            print("Test")
+        self.settings_frame = customtkinter.CTkFrame(self, corner_radius=0, fg_color="transparent")
 
         def play():
             print("Play")
@@ -205,13 +189,13 @@ class App(customtkinter.CTk):
         else:
             self.home_frame.grid_forget()
         if name == "playlist":
-            self.second_frame.grid(row=0, column=1, sticky="nsew")
+            self.playlist_frame.grid(row=0, column=1, sticky="nsew")
         else:
-            self.second_frame.grid_forget()
+            self.playlist_frame.grid_forget()
         if name == "settings":
-            self.third_frame.grid(row=0, column=1, sticky="nsew")
+            self.settings_frame.grid(row=0, column=1, sticky="nsew")
         else:
-            self.third_frame.grid_forget()
+            self.settings_frame.grid_forget()
 
     def home_button_event(self):
         self.select_frame_by_name("home")
