@@ -88,7 +88,6 @@ class App(customtkinter.CTk):
 
         # create home frame
         self.home_frame = customtkinter.CTkFrame(self, corner_radius=0, fg_color="transparent")
-        #self.home_frame.grid_columnconfigure(0, weight=1)
 
         album_cover = customtkinter.CTkLabel(self.home_frame, text="", image=self.album_cover_img1)
         album_cover.grid(row=0, column=1, columnspan=3, padx=10, pady=10)
@@ -185,7 +184,7 @@ class App(customtkinter.CTk):
 
         # show selected frame
         if name == "home":
-            self.home_frame.grid(row=0, column=1, sticky="nsew")
+            self.home_frame.grid(row=0, column=1, sticky="nsew", padx=100)
         else:
             self.home_frame.grid_forget()
         if name == "playlist":
