@@ -4,7 +4,7 @@ from PIL import ImageTk, Image
 from io import BytesIO
 import requests
 
-openai.api_key = "API_KEY"
+openai.api_key = "openai key"
 root = tk.Tk()
 
 def getImage(artist, song):
@@ -14,14 +14,14 @@ def getImage(artist, song):
         size="1024x1024"
     )
     image_url = response['data'][0]['url']
-    response = requests.get(image)
+    response = requests.get(image_url)
     img_data = response.content
     img = ImageTk.PhotoImage(Image.open(BytesIO(img_data)))
 
     return img
 
-# image = getImage('Jay-Z', "Don't Knock tha Hustle")
+image = getImage('Jay-Z', "Don't Knock tha Hustle")
 
-# panel = tk.Label(root, image=img)
-# panel.pack(side="bottom", fill="both", expand="yes")
-# root.mainloop()
+panel = tk.Label(root, image=image)
+panel.pack(side="bottom", fill="both", expand="yes")
+root.mainloop()
