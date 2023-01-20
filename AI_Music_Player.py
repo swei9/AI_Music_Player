@@ -113,8 +113,7 @@ class App(customtkinter.CTk):
         def play():
             print("Play")
             #Insert play function here
-            pygame.init()
-            mixer.music.load('meow.wav')
+            playsound('meow.wav')
 
         def pause():
             print("Pause")
