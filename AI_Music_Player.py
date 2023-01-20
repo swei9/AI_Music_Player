@@ -18,7 +18,7 @@ class App(customtkinter.CTk):
 
         self.title("BeatScape")
         self.geometry(f"{1000}x{610}")
-        self.iconbitmap("images/gui/favicon.ico")
+        #self.iconbitmap("images/gui/favicon.ico")
 
         # set grid layout 1x2
         self.grid_rowconfigure(0, weight=1)
