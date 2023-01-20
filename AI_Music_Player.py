@@ -17,7 +17,7 @@ class App(customtkinter.CTk):
         pygame.mixer.init()
 
         self.title("BeatScape")
-        self.geometry(f"{1100}x{610}")
+        self.geometry(f"{1000}x{610}")
         self.iconbitmap("images/gui/favicon.ico")
 
         # set grid layout 1x2
