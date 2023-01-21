@@ -1,14 +1,17 @@
 #imports
 from playsound import playsound
 import tkinter
+from tkinter import filedialog
 from PIL import ImageTk,Image
 import customtkinter
 import os
 import pygame
-from pygame import mixer 
+from pygame import mixer
 
 customtkinter.set_appearance_mode("dark")
 customtkinter.set_default_color_theme("dark-blue")
+
+# Music by https://www.bensound.com
 
 class App(customtkinter.CTk):
     def __init__(self):
@@ -17,8 +20,11 @@ class App(customtkinter.CTk):
         pygame.mixer.init()
 
         self.title("BeatScape")
-        self.geometry(f"{1000}x{610}")
+        self.geometry(f"{1150}x{610}")
         self.iconbitmap("images/gui/favicon.ico")
+
+        global paused
+        paused = False
 
         # set grid layout 1x2
         self.grid_rowconfigure(0, weight=1)
@@ -90,36 +96,54 @@ class App(customtkinter.CTk):
         self.home_frame = customtkinter.CTkFrame(self, corner_radius=0, fg_color="transparent")
 
         album_cover = customtkinter.CTkLabel(self.home_frame, text="", image=self.album_cover_img1)
-        album_cover.grid(row=0, column=1, columnspan=3, padx=10, pady=10)
+        album_cover.grid(row=0, column=1, columnspan=4, padx=10, pady=10)
 
         back_button = customtkinter.CTkButton(self.home_frame, text="", image=self.backbutton_image)
         back_button.grid(row=1, column=1, padx=10, pady=10)
 
-        play_button = customtkinter.CTkButton(self.home_frame, text="", image=self.playbutton_image, command=lambda: play)
+        play_button = customtkinter.CTkButton(self.home_frame, text="", image=self.playbutton_image, command=lambda: play())
         play_button.grid(row=1, column=2, padx=10, pady=10)
 
+        pause_button = customtkinter.CTkButton(self.home_frame, text="", image=self.pausebutton_image, command=lambda: pause(paused))
+        pause_button.grid(row=1, column=3, padx=10, pady=10)
+
         skip_button = customtkinter.CTkButton(self.home_frame, text="",  image=self.skipbutton_image, command=lambda: skip(2))
-        skip_button.grid(row=1, column=3, padx=10, pady=10)
+        skip_button.grid(row=1, column=4, padx=10, pady=10)
 
         status_button = customtkinter.CTkLabel(self.home_frame, text="Song 1 of " + str(number_of_songs))
-        status_button.grid(row=2, column=1, columnspan=3)
+        status_button.grid(row=2, column=1, columnspan=4)
 
         # create playlist frame
         self.playlist_frame = customtkinter.CTkFrame(self, corner_radius=0, fg_color="transparent")
+
+        song_box = tkinter.Listbox(self.playlist_frame, bg="black", width=60)
+        song_box.pack(padx=20, pady=20)
+
+        add_song_btn = customtkinter.CTkButton(self.playlist_frame, text="Add song", command=lambda: add_song())
+        add_song_btn.pack(padx=10, pady=10)
+
+        add_many_songs_btn = customtkinter.CTkButton(self.playlist_frame, text="Add many songs", command=lambda: add_many_songs())
+        add_many_songs_btn.pack(padx=10, pady=10)
 
         # create settings frame
         self.settings_frame = customtkinter.CTkFrame(self, corner_radius=0, fg_color="transparent")
 
         def play():
-            print("Play")
-            #Insert play function here
-            pygame.init()
-            mixer.music.load('meow.wav')
+            song = song_box.get('active')
+            song = f'C:/Users/bsaen/develop/AI_Music_Player-1/songs/{song}.mp3'
+            pygame.mixer.music.load(song)
+            pygame.mixer.music.play(loops=0)
 
-        def pause():
-            print("Pause")
-            #Insert pause function here
-            mixer.music.pause()
+        def pause(is_paused):
+            global paused
+            paused = is_paused
+
+            if paused:
+                pygame.mixer.music.pause()
+                paused = False
+            else:
+                pygame.mixer.music.unpause()
+                paused = True
 
         def resume():
             print("Resume")
@@ -172,9 +196,23 @@ class App(customtkinter.CTk):
             status_button = customtkinter.CTkLabel(self, text="Song " + str(image_number) + " of " + str(number_of_songs), bd=1)
             status_button.grid(row=2, column=1, columnspan=3)
 
+        def add_song():
+            song = filedialog.askopenfilename(initialdir='audio/', title="Choose A Song", filetypes=(("mp3 Files", "*.mp3"), ))
+        
+            #strip out the directory info and .mp3 extension from the song name
+            song = song.replace("C:/Users/bsaen/develop/AI_Music_Player-1/songs/", "")
+            song = song.replace(".mp3", "")
+
+            # Add song to listbox
+            song_box.insert('end', song)
+
+        def add_many_songs():
+            pass
         
         # select default frame
         self.select_frame_by_name("home")
+
+
 
     def select_frame_by_name(self, name):
         # set button color for selected button
