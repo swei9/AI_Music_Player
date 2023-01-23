@@ -1,27 +1,18 @@
 import openai
-import tkinter as tk
-from PIL import ImageTk, Image
-from io import BytesIO
-import requests
+import urllib.request
+import os
 
-openai.api_key = "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"
-root = tk.Tk()
+image_path_album_covers = os.path.join(os.path.dirname(os.path.realpath(__file__)), "images/album-covers")
 
-def getImage(artist, song):
+openai.api_key = ""
+
+def getImage(song):
     response = openai.Image.create(
-        prompt="Album Cover for {} by {}".format(song, artist),
+        prompt="Create a unique album cover for a song called {} that is 500 x 500 pixels. ".format(song),
         n=1,
         size="1024x1024"
     )
     image_url = response['data'][0]['url']
-    response = requests.get(image_url)
-    img_data = response.content
-    img = ImageTk.PhotoImage(Image.open(BytesIO(img_data)))
+    urllib.request.urlretrieve(image_url, os.path.join(image_path_album_covers, "{}.jpg".format(song)))
 
-    return img
-
-image = getImage('Jay-Z', "Don't Knock tha Hustle")
-
-panel = tk.Label(root, image=image)
-panel.pack(side="bottom", fill="both", expand="yes")
-root.mainloop()
+    return "{}.jpg".format(song)

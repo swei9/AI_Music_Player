@@ -7,6 +7,7 @@ import customtkinter
 import os
 import pygame
 from pygame import mixer
+import DALL_E_Generator as imageGen
 
 customtkinter.set_appearance_mode("dark")
 customtkinter.set_default_color_theme("dark-blue")
@@ -55,12 +56,12 @@ class App(customtkinter.CTk):
                                                      dark_image=Image.open(os.path.join(image_path_gui, "settings_light.png")), size=(20, 20))
 
         # load song images
-        self.album_cover_img1 = customtkinter.CTkImage(Image.open(os.path.join(image_path_album_covers, "beatles.jpg")), size=(500, 500))
-        self.album_cover_img2 = customtkinter.CTkImage(Image.open(os.path.join(image_path_album_covers, "led-zepllin.jpg")), size=(500, 500))
-        self.album_cover_img3 = customtkinter.CTkImage(Image.open(os.path.join(image_path_album_covers, "nico.jpg")), size=(500, 500))
-        self.album_cover_img4 = customtkinter.CTkImage(Image.open(os.path.join(image_path_album_covers, "notorius-big.jpg")), size=(500, 500))
-        self.album_cover_img5 = customtkinter.CTkImage(Image.open(os.path.join(image_path_album_covers, "patti.jpg")), size=(500, 500))
-        self.album_cover_img6 = customtkinter.CTkImage(Image.open(os.path.join(image_path_album_covers, "pink-floyd.jpg")), size=(500, 500))
+        self.album_cover_img1 = customtkinter.CTkImage(Image.open(os.path.join(image_path_album_covers, imageGen.getImage("allthat.mp3"))), size=(500, 500))
+        self.album_cover_img2 = customtkinter.CTkImage(Image.open(os.path.join(image_path_album_covers, imageGen.getImage("creativeminds.mp3"))), size=(500, 500))
+        self.album_cover_img3 = customtkinter.CTkImage(Image.open(os.path.join(image_path_album_covers, imageGen.getImage("dreams.mp3"))), size=(500, 500))
+        self.album_cover_img4 = customtkinter.CTkImage(Image.open(os.path.join(image_path_album_covers, imageGen.getImage("elevate.mp3"))), size=(500, 500))
+        self.album_cover_img5 = customtkinter.CTkImage(Image.open(os.path.join(image_path_album_covers, imageGen.getImage("meow.mp3"))), size=(500, 500))
+        self.album_cover_img6 = customtkinter.CTkImage(Image.open(os.path.join(image_path_album_covers, imageGen.getImage("santa.mp3"))), size=(500, 500))
 
         self.song_image_list = [self.album_cover_img1, self.album_cover_img2, self.album_cover_img3, self.album_cover_img4, self.album_cover_img5, self.album_cover_img6]
         number_of_songs = len(self.song_image_list)
