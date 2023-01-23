@@ -116,7 +116,7 @@ class App(customtkinter.CTk):
         # create playlist frame
         self.playlist_frame = customtkinter.CTkFrame(self, corner_radius=0, fg_color="transparent")
 
-        song_box = tkinter.Listbox(self.playlist_frame, bg="black", width=60)
+        song_box = tkinter.Listbox(self.playlist_frame, bg="#1a1a1a", width=100, height=25, border="1", foreground="white")
         song_box.pack(padx=20, pady=20)
 
         add_song_btn = customtkinter.CTkButton(self.playlist_frame, text="Add song", command=lambda: add_song())
@@ -128,6 +128,7 @@ class App(customtkinter.CTk):
         # create settings frame
         self.settings_frame = customtkinter.CTkFrame(self, corner_radius=0, fg_color="transparent")
 
+        #Play selected song
         def play():
             song = song_box.get('active')
             song = f'C:/Users/bsaen/develop/AI_Music_Player-1/songs/{song}.mp3'
@@ -196,6 +197,7 @@ class App(customtkinter.CTk):
             status_button = customtkinter.CTkLabel(self, text="Song " + str(image_number) + " of " + str(number_of_songs), bd=1)
             status_button.grid(row=2, column=1, columnspan=3)
 
+        #Add song to playlist
         def add_song():
             song = filedialog.askopenfilename(initialdir='audio/', title="Choose A Song", filetypes=(("mp3 Files", "*.mp3"), ))
         
@@ -207,7 +209,13 @@ class App(customtkinter.CTk):
             song_box.insert('end', song)
 
         def add_many_songs():
-            pass
+            songs = filedialog.askopenfilenames(initialdir='audio/', title="Choose A Song", filetypes=(("mp3 Files", "*.mp3"), ))
+
+            #Loop through song list and replace directory info and mp3 paths then insert into playlist
+            for song in songs:
+                song = song.replace("C:/Users/bsaen/develop/AI_Music_Player-1/songs/", "")
+                song = song.replace(".mp3", "")
+                song_box.insert('end', song)
         
         # select default frame
         self.select_frame_by_name("home")
