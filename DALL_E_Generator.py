@@ -19,7 +19,7 @@ def getImage(song):
         image_url = response['data'][0]['url']
         urllib.request.urlretrieve(image_url, os.path.join(image_path_album_covers, "{}.jpg".format(song)))
     except:
-        print("Exception occured for song {}".format(song), restarting)
+        print("Exception occured for song {}".format(song))
         getImage(song)
     
     print("Image for {} successfuly generated".format(song))    

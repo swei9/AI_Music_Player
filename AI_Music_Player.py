@@ -17,15 +17,11 @@ customtkinter.set_default_color_theme("dark-blue")
 class App(customtkinter.CTk):
     def __init__(self):
         super().__init__()
-
         pygame.mixer.init()
 
         self.title("BeatScape")
         self.geometry(f"{1150}x{610}")
         self.iconbitmap("images/gui/favicon.ico")
-
-        global paused
-        paused = False
 
         # set grid layout 1x2
         self.grid_rowconfigure(0, weight=1)
@@ -96,21 +92,27 @@ class App(customtkinter.CTk):
         # create home frame
         self.home_frame = customtkinter.CTkFrame(self, corner_radius=0, fg_color="transparent")
 
+        global album_cover
         album_cover = customtkinter.CTkLabel(self.home_frame, text="", image=self.album_cover_img1)
         album_cover.grid(row=0, column=1, columnspan=4, padx=10, pady=10)
 
-        back_button = customtkinter.CTkButton(self.home_frame, text="", image=self.backbutton_image)
+        global back_button
+        back_button = customtkinter.CTkButton(self.home_frame, text="", image=self.backbutton_image, command=lambda: back(), state='disabled')
         back_button.grid(row=1, column=1, padx=10, pady=10)
 
+        global play_button
         play_button = customtkinter.CTkButton(self.home_frame, text="", image=self.playbutton_image, command=lambda: play())
         play_button.grid(row=1, column=2, padx=10, pady=10)
 
+        global pause_button
         pause_button = customtkinter.CTkButton(self.home_frame, text="", image=self.pausebutton_image, command=lambda: pause(paused))
         pause_button.grid(row=1, column=3, padx=10, pady=10)
 
+        #global skip_button
         skip_button = customtkinter.CTkButton(self.home_frame, text="",  image=self.skipbutton_image, command=lambda: skip(2))
         skip_button.grid(row=1, column=4, padx=10, pady=10)
 
+        global status_button
         status_button = customtkinter.CTkLabel(self.home_frame, text="Song 1 of " + str(number_of_songs))
         status_button.grid(row=2, column=1, columnspan=4)
 
@@ -128,6 +130,9 @@ class App(customtkinter.CTk):
 
         # create settings frame
         self.settings_frame = customtkinter.CTkFrame(self, corner_radius=0, fg_color="transparent")
+
+        global paused
+        paused = False
 
         #Play selected song
         def play():
@@ -147,11 +152,6 @@ class App(customtkinter.CTk):
                 pygame.mixer.music.unpause()
                 paused = True
 
-        def resume():
-            print("Resume")
-            #Insert RESUME function here
-            mixer.music.unpause()
-
         def skip(image_number):
             global album_cover
             global play_button
@@ -161,19 +161,28 @@ class App(customtkinter.CTk):
 
             album_cover.grid_forget()
 
-            album_cover = customtkinter.CTkLabel(self, image=self.song_image_list[image_number-1])
-            play_button = customtkinter.CTkButton(self, image=self.playbutton_image, command=lambda: play)
-            pause_button = customtkinter.CTkButton(self, image=self.pausebutton_image, command=lambda: pause)
+            album_cover = customtkinter.CTkLabel(self.home_frame, text="", image=self.song_image_list[image_number-1])
+            album_cover.grid(row=0, column=1, columnspan=4, padx=10, pady=10)
+
+            play_button = customtkinter.CTkButton(self.home_frame, text="", image=self.playbutton_image, command=lambda: play)
+            play_button.grid(row=1, column=2, padx=10, pady=10)
+
+            pause_button = customtkinter.CTkButton(self.home_frame, text="", image=self.pausebutton_image, command=lambda: pause)
+            pause_button.grid(row=1, column=3, padx=10, pady=10)
 
             if image_number == number_of_songs:
-                skip_button = customtkinter.CTkButton(self, image=self.skipbutton_image)
+                skip_button = customtkinter.CTkButton(self.home_frame, text="", image=self.skipbutton_image, state='disabled')
             else:
-                skip_button = customtkinter.CTkButton(self,  image=self.skipbutton_image, command=lambda: skip(image_number+1))
+                skip_button = customtkinter.CTkButton(self.home_frame, text="", image=self.skipbutton_image, command=lambda: skip(image_number+1))
+            skip_button.grid(row=1, column=4, padx=10, pady=10)
 
-            back_button = customtkinter.CTkButton(self, image=self.backbutton_image, command=lambda: back(image_number-1))
+            back_button = customtkinter.CTkButton(self.home_frame, text="", image=self.backbutton_image, command=lambda: back(image_number-1))
+            back_button.grid(row=1, column=1, padx=10, pady=10)
 
-            status_button = customtkinter.CTkLabel(self, text="Song " + str(image_number) + " of " + str(number_of_songs), bd=1)
-            status_button.grid(row=2, column=1, columnspan=3)
+            status_button = customtkinter.CTkLabel(self.home_frame, text="Song " + str(image_number) + " of " + str(number_of_songs))
+            status_button.grid(row=2, column=1, columnspan=4)
+
+            self.home_frame.grid(row=0, column=1, sticky="nsew", padx=100)
 
         def back(image_number):
             global album_cover
@@ -184,19 +193,29 @@ class App(customtkinter.CTk):
 
             album_cover.grid_forget()
 
-            album_cover = customtkinter.CTkLabel(self, image=self.song_image_list[image_number-1])
-            play_button = customtkinter.CTkButton(self, image=self.playbutton_image, command=lambda: play)
-            pause_button = customtkinter.CTkButton(self, image=self.pausebutton_image, command=lambda: pause)
+            album_cover = customtkinter.CTkLabel(self.home_frame, text="", image=self.song_image_list[image_number-1])
+            album_cover.grid(row=0, column=1, columnspan=4, padx=10, pady=10)
 
-            skip_button = customtkinter.CTkButton(self,  image=self.skipbutton_image, command=lambda: skip(image_number+1))
+            play_button = customtkinter.CTkButton(self.home_frame, text="", image=self.playbutton_image, command=lambda: play)
+            play_button.grid(row=1, column=2, padx=10, pady=10)
+
+            pause_button = customtkinter.CTkButton(self.home_frame, text="", image=self.pausebutton_image, command=lambda: pause)
+            pause_button.grid(row=1, column=3, padx=10, pady=10)
+
+            skip_button = customtkinter.CTkButton(self.home_frame, text="", image=self.skipbutton_image, command=lambda: skip(image_number+1))
+            skip_button.grid(row=1, column=4, padx=10, pady=10)
 
             if image_number == 1:
-                back_button = customtkinter.CTkButton(self, image=self.backbutton_image)
+                back_button = customtkinter.CTkButton(self.home_frame, text="", image=self.backbutton_image, state='disabled')
             else:
-                back_button = customtkinter.CTkButton(self, image=self.backbutton_image, command=lambda: back(image_number-1))
+                back_button = customtkinter.CTkButton(self.home_frame, text="", image=self.backbutton_image, command=lambda: back(image_number-1))
+                
+            back_button.grid(row=1, column=1, padx=10, pady=10)
 
-            status_button = customtkinter.CTkLabel(self, text="Song " + str(image_number) + " of " + str(number_of_songs), bd=1)
-            status_button.grid(row=2, column=1, columnspan=3)
+            status_button = customtkinter.CTkLabel(self.home_frame, text="Song " + str(image_number) + " of " + str(number_of_songs))
+            status_button.grid(row=2, column=1, columnspan=4)
+
+            self.home_frame.grid(row=0, column=1, sticky="nsew", padx=100)
 
         #Add song to playlist
         def add_song():
@@ -220,8 +239,6 @@ class App(customtkinter.CTk):
         
         # select default frame
         self.select_frame_by_name("home")
-
-
 
     def select_frame_by_name(self, name):
         # set button color for selected button

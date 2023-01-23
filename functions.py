@@ -1,7 +1,7 @@
 from pygame import mixer
 mixer.init()
 # --------------------------Path of your music
-mixer.music.load("santa.wav")
+mixer.music.load("songs\\*.mp3")
 mixer.music.set_volume(0.5)
 mixer.music.play()
 while True:
