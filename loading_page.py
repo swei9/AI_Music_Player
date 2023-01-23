@@ -50,6 +50,6 @@ def load():
 
 load()
 
-root.after(16000,lambda:root.destroy())
+root.after(81000,lambda:root.destroy())
 
 root.mainloop()
