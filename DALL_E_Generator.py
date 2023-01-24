@@ -6,7 +6,7 @@ import time
 
 image_path_album_covers = os.path.join(os.path.dirname(os.path.realpath(__file__)), "images/album-covers")
 
-openai.api_key = ""
+openai.api_key = "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"
 
 def getImage(song):
     time.sleep(np.random.uniform(4, 6))

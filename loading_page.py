@@ -44,12 +44,12 @@ def load():
     if i <= 10:
         txt = 'Progress: ' +(str(10*i) + '%')
         progress_label.config(text=txt)
-        progress_label.after(8000, load)
+        progress_label.after(500, load)
         progress_bar['value'] = 10*i
         i += 1
 
 load()
 
-root.after(81000,lambda:root.destroy())
+root.after(5100,lambda:root.destroy())
 
 root.mainloop()
